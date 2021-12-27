@@ -60,7 +60,7 @@ class FollowerSerializer(serializers.ModelSerializer):
         falready = Follower.objects.filter(follower = followerobj,person = self.context['person'])
         if followerobj.uname == self.context['person']:
             raise serializers.ValidationError(
-                {'FollowError': 'You cannot follow yourself you narcissist'})
+                {'FollowError': 'You cannot follow yourself'})
         if not falready:
             follower = Follower(follower = followerobj, person = self.context['person'])
             follower.save()
@@ -83,8 +83,10 @@ class MeepFeedSerializer(serializers.ModelSerializer):
         if len(people)>0:
             person = []
             for i in people:
-                person.append(UserModel.objects.get(uname=str(i.person)))
-            meeps = list(Meep.objects.filter(userid__in=person))
+                person.append(str(i.person))
+            print(person)
+            personlist = list(UserModel.objects.filter(uname__in=person))
+            meeps = list(Meep.objects.filter(userid__in=personlist))
             if len(meeps)>0:
                 meeps.sort(key=lambda x: x.meepid, reverse=True)
                 return meeps

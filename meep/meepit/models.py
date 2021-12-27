@@ -11,10 +11,10 @@ from rest_framework.authtoken.models import Token
 class UserModel(AbstractUser):
     name = models.CharField(max_length=30, default='')
     email = models.CharField(max_length=30,null=False)
-    uname = models.CharField(max_length=200,default='',unique=True)
-    password = models.CharField(max_length=200,default='')
-    password2 = models.CharField(max_length=200,default='')
-    bio = models.CharField(max_length=200,default='')
+    uname = models.CharField(max_length=200,default='',unique=True,null=False)
+    password = models.CharField(max_length=200,default='',null=False)
+    password2 = models.CharField(max_length=200,default='',null=False)
+    bio = models.CharField(max_length=200,default='',blank=True)
     created_at = models.DateTimeField(default=now, editable=False)
     updated_at = models.DateTimeField(default=now, editable=False)
 
@@ -32,7 +32,7 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 
 class Meep(models.Model):
     meepid = models.BigAutoField(primary_key=True)
-    userid = models.ForeignKey(UserModel,on_delete=models.CASCADE,default=None,null=True, blank=True)
+    userid = models.ForeignKey(UserModel,on_delete=models.CASCADE,default=None)
     meeptext = models.CharField(max_length=200,default='',null=False)
     meep_time = models.DateTimeField(default=now, editable=False)
     created_at = models.DateTimeField(default=now, editable=False)
