@@ -84,7 +84,6 @@ class MeepFeedSerializer(serializers.ModelSerializer):
             person = []
             for i in people:
                 person.append(str(i.person))
-            print(person)
             personlist = list(UserModel.objects.filter(uname__in=person))
             meeps = list(Meep.objects.filter(userid__in=personlist))
             if len(meeps)>0:
